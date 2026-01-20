@@ -107,7 +107,11 @@ dotnet run
 
 ---
 
-- YouTube :  [![YouTube](https://img.icons8.com/color/32/youtube-play.png)](https://youtu.be/lEbRWbjsKMI)
+- YouTube :
+  <a href="https://youtu.be/lEbRWbjsKMI">
+    <img src="https://img.icons8.com/color/32/youtube-play.png"/>
+  </a>
+
  
 
 
