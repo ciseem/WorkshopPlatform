@@ -107,7 +107,8 @@ dotnet run
 
 ---
 
-## [![YouTube](https://img.shields.io/badge/YouTube-Subscribe-red?logo=youtube)](https://www.youtube.com/@KANAL_ADIN)
+## [![YouTube](https://img.icons8.com/color/48/000000/youtube-play.png)](https://www.youtube.com/@KANAL_ADIN)
+
 
 
 
