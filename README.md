@@ -107,7 +107,8 @@ dotnet run
 
 ---
 
-## YouTube Linkime Ulaşmak İçin  Tıklayabilirsiniz  [![YouTube](https://img.icons8.com/color/48/000000/youtube-play.png)](https://www.youtube.com/@KANAL_ADIN)
+## YouTube Linkime Ulaşmak İçin  Tıklayabilirsiniz 
+ [![YouTube](https://img.icons8.com/color/48/000000/youtube-play.png)](https://www.youtube.com/@KANAL_ADIN)
 
 
 
