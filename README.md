@@ -109,7 +109,6 @@ dotnet run
 
 - YouTube :
   <a href="https://youtu.be/lEbRWbjsKMI">
-    <img src="https://img.icons8.com/color/32/youtube-play.png"/>
   </a>
 
  
