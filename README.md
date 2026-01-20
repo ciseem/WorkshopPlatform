@@ -107,6 +107,10 @@ dotnet run
 
 ---
 
+## [![YouTube](https://img.shields.io/badge/YouTube-Subscribe-red?logo=youtube)](https://www.youtube.com/@KANAL_ADIN)
+
+
+
 <div align="center">
 
 **Workshop Platform v5.0**  
