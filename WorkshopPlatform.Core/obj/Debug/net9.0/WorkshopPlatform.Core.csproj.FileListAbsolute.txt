@@ -1,0 +1,12 @@
+C:\Users\Excalibur\Desktop\cisemproje_2\WorkshopPlatform.Core\bin\Debug\net9.0\WorkshopPlatform.Core.deps.json
+C:\Users\Excalibur\Desktop\cisemproje_2\WorkshopPlatform.Core\bin\Debug\net9.0\WorkshopPlatform.Core.dll
+C:\Users\Excalibur\Desktop\cisemproje_2\WorkshopPlatform.Core\bin\Debug\net9.0\WorkshopPlatform.Core.pdb
+C:\Users\Excalibur\Desktop\cisemproje_2\WorkshopPlatform.Core\obj\Debug\net9.0\WorkshopPlatform.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Excalibur\Desktop\cisemproje_2\WorkshopPlatform.Core\obj\Debug\net9.0\WorkshopPlatform.Core.AssemblyInfoInputs.cache
+C:\Users\Excalibur\Desktop\cisemproje_2\WorkshopPlatform.Core\obj\Debug\net9.0\WorkshopPlatform.Core.AssemblyInfo.cs
+C:\Users\Excalibur\Desktop\cisemproje_2\WorkshopPlatform.Core\obj\Debug\net9.0\WorkshopPlatform.Core.csproj.CoreCompileInputs.cache
+C:\Users\Excalibur\Desktop\cisemproje_2\WorkshopPlatform.Core\obj\Debug\net9.0\WorkshopPlatform.Core.dll
+C:\Users\Excalibur\Desktop\cisemproje_2\WorkshopPlatform.Core\obj\Debug\net9.0\refint\WorkshopPlatform.Core.dll
+C:\Users\Excalibur\Desktop\cisemproje_2\WorkshopPlatform.Core\obj\Debug\net9.0\WorkshopPlatform.Core.pdb
+C:\Users\Excalibur\Desktop\cisemproje_2\WorkshopPlatform.Core\obj\Debug\net9.0\ref\WorkshopPlatform.Core.dll
+C:\Users\Excalibur\Desktop\cisemproje_2\WorkshopPlatform.Core\obj\Debug\net9.0\WorkshopPlatform.Core.sourcelink.json

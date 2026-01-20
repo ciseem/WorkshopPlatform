@@ -1,0 +1,62 @@
+@model IEnumerable<WorkshopPlatform.Core.DTOs.WorkshopAttendanceReportDto>
+@{
+    ViewData["Title"] = "Finansal Analiz";
+}
+
+<div class="flex justify-between items-center mb-8 pb-6" style="border-bottom: 1px solid var(--gray-200);">
+    <div>
+        <h3 class="font-extrabold mb-1" style="font-size: 1.75rem; color: var(--dark);">Performans Verileri</h3>
+        <p class="text-secondary" style="font-size: 0.875rem; font-weight: 500;">Sistem genelindeki katılım ve finansal verileri raporlayın.</p>
+    </div>
+    <div style="display: flex; gap: 0.75rem;">
+        <a asp-action="DownloadCsv" class="premium-btn-sm" style="text-decoration: none; background: var(--secondary);"><i class="fas fa-file-csv mr-1"></i> .CSV</a>
+        <a asp-action="DownloadPdf" class="premium-btn-sm" style="text-decoration: none; background: var(--primary-gradient);"><i class="fas fa-file-pdf mr-1"></i> .PDF Olarak İndir</a>
+    </div>
+</div>
+
+<div class="stats-grid">
+    <div class="premium-card stat-item">
+        <span class="stat-label">Popüler Kategori</span>
+        <span class="stat-value" style="font-size: 1.25rem;">Yazılım Mühendisliği</span>
+    </div>
+    <div class="premium-card stat-item">
+        <span class="stat-label">Katılım Oranı</span>
+        <span class="stat-value">%94.2</span>
+    </div>
+    <div class="premium-card stat-item">
+        <span class="stat-label">Yıllık Büyüme</span>
+        <span class="stat-value text-success">+12.5%</span>
+    </div>
+</div>
+
+<div class="premium-card mt-8" style="padding: 0; overflow: hidden;">
+    <div style="padding: 1.5rem; border-bottom: 1px solid var(--gray-200);" class="flex justify-between items-center">
+        <h4 class="font-bold" style="font-size: 1.125rem; color: var(--dark);">Katılım Kayıtları</h4>
+        <span class="text-secondary font-bold" style="font-size: 0.75rem;">TOPLAM @Model.Count() KAYIT</span>
+    </div>
+    <div style="overflow-x: auto;">
+        <table class="elite-table">
+            <thead>
+                <tr>
+                    <th>Kullanıcı</th>
+                    <th>Workshop Başlığı</th>
+                    <th>Tarih</th>
+                    <th>Durum</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="font-bold">@item.KatilimciAd</td>
+                        <td>@item.WorkshopBaslik</td>
+                        <td class="text-secondary">@item.SeansTarih.ToString("d")</td>
+                        <td>
+                            <span class="badge badge-success">@item.Durum</span>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

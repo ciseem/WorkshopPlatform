@@ -1,0 +1,59 @@
+@model IEnumerable<WorkshopPlatform.Core.Entities.Workshop>
+@{
+    ViewData["Title"] = "Genel Bakış";
+    var stats = ViewBag.Stats as WorkshopPlatform.Core.DTOs.DashboardStatsDto;
+}
+
+<div class="stats-grid">
+    <div class="premium-card stat-item">
+        <span class="stat-label">Aktif Eğitimler</span>
+        <span class="stat-value">@stats?.ActiveWorkshops</span>
+    </div>
+    <div class="premium-card stat-item">
+        <span class="stat-label">Toplam Katılımcı</span>
+        <span class="stat-value">@stats?.TotalParticipants</span>
+    </div>
+    <div class="premium-card stat-item">
+        <span class="stat-label">Toplam Eğitmen</span>
+        <span class="stat-value">@(stats?.TotalInstructors ?? 0)</span>
+    </div>
+    <div class="premium-card stat-item">
+        <span class="stat-label">Yaklaşan Eğitimler (Sizin)</span>
+        <span class="stat-value text-primary">@(stats?.TotalParticipants ?? 0)</span>
+    </div>
+</div>
+
+<div class="mt-8">
+    <div class="flex justify-between items-center mb-6">
+        <h2 class="font-bold" style="font-size: 1.25rem;">Öne Çıkan Workshoplar</h2>
+        <a asp-controller="Workshop" asp-action="Index" class="text-primary font-bold" style="text-decoration: none; font-size: 0.875rem;">Hepsini Gör <i class="fas fa-arrow-right ml-1"></i></a>
+    </div>
+
+    <div class="workshop-grid">
+        @foreach (var item in Model.Take(3))
+        {
+            <div class="premium-card workshop-card">
+                <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&q=80" alt="@item.Baslik">
+                <div class="flex justify-between items-center mb-2">
+                    <span class="badge @(item.UcretliMi ? "badge-paid" : "badge-free")">
+                        @(item.UcretliMi ? $"{item.Fiyat:C2}" : "Ücretsiz")
+                    </span>
+                    <span class="text-secondary font-bold" style="font-size: 0.75rem;">@item.Kategori</span>
+                </div>
+                <h3 class="font-bold mb-2" style="font-size: 1.125rem;">@item.Baslik</h3>
+                <p class="text-secondary mb-6" style="font-size: 0.875rem; line-height: 1.5;">
+                    @item.Aciklama
+                </p>
+                <div class="flex justify-between items-center">
+                    <div class="flex items-center gap-2">
+                        <div style="width: 24px; height: 24px; background: var(--gray-100); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.65rem; font-weight: 800; color: var(--primary);">
+                            @item.OlusturanKullanici.AdSoyad.Substring(0,1)
+                        </div>
+                        <span class="text-secondary" style="font-size: 0.75rem; font-weight: 600;">@item.OlusturanKullanici.AdSoyad</span>
+                    </div>
+                    <a asp-action="Detail" asp-controller="Workshop" asp-route-id="@item.Id" class="premium-btn-sm" style="padding: 0.5rem 1rem; font-size: 0.75rem;">İncele</a>
+                </div>
+            </div>
+        }
+    </div>
+</div>

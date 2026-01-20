@@ -1,0 +1,168 @@
+@model WorkshopPlatform.Core.Entities.Workshop
+@{
+    ViewData["Title"] = "Workshop Düzenle";
+}
+
+<div class="flex justify-between items-center mb-8 pb-6" style="border-bottom: 1px solid var(--gray-200);">
+    <div>
+        <h3 class="font-extrabold mb-1" style="font-size: 1.75rem; color: var(--dark);">Workshop Düzenle</h3>
+        <p class="text-secondary" style="font-size: 0.875rem; font-weight: 500;">Eğitim bilgilerini, konumunu ve katılımcıları yönetin.</p>
+    </div>
+    <a asp-action="Index" class="premium-btn-sm" style="text-decoration: none; background: var(--gray-200); color: var(--dark);"><i class="fas fa-arrow-left mr-2"></i> Geri Dön</a>
+</div>
+
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <!-- Edit Form -->
+    <div class="lg:col-span-2">
+        <div class="premium-card">
+            <form asp-action="Edit" method="post">
+                <input type="hidden" asp-for="Id" />
+                <input type="hidden" asp-for="OlusturanKullaniciId" />
+                <input type="hidden" asp-for="OlusturulmaTarihi" />
+                <input type="hidden" asp-for="Durum" />
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div class="md:col-span-2">
+                        <label asp-for="Baslik" class="block text-sm font-bold mb-2">Başlık</label>
+                        <input asp-for="Baslik" class="elite-input w-full" required />
+                    </div>
+
+                    <div>
+                        <label asp-for="Kategori" class="block text-sm font-bold mb-2">Kategori</label>
+                        <select asp-for="Kategori" class="elite-input w-full">
+                            <option value="Yazılım">Yazılım</option>
+                            <option value="Tasarım">Tasarım</option>
+                            <option value="Pazarlama">Pazarlama</option>
+                            <option value="İş Dünyası">İş Dünyası</option>
+                            <option value="Kişisel Gelişim">Kişisel Gelişim</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label asp-for="Fiyat" class="block text-sm font-bold mb-2">Fiyat (₺)</label>
+                        <input asp-for="Fiyat" class="elite-input w-full" type="number" step="1" />
+                    </div>
+
+                    <div class="md:col-span-2">
+                        <label asp-for="Aciklama" class="block text-sm font-bold mb-2">Açıklama</label>
+                        <textarea asp-for="Aciklama" class="elite-input w-full" rows="4" required></textarea>
+                    </div>
+
+                    <!-- Location ⚓🗺️ -->
+                    <div class="md:col-span-2 border-t pt-6 mt-2">
+                        <h5 class="font-bold mb-4 text-primary"><i class="fas fa-map-marker-alt mr-2"></i> Konum Güncelleme</h5>
+                        <div class="grid grid-cols-3 gap-4 mb-4">
+                            <div>
+                                <label class="text-xs font-bold text-secondary mb-1 block">İl</label>
+                                <input asp-for="Sehir" class="elite-input w-full" placeholder="İl" />
+                            </div>
+                            <div>
+                                <label class="text-xs font-bold text-secondary mb-1 block">İlçe</label>
+                                <input asp-for="Ilce" class="elite-input w-full" placeholder="İlçe" />
+                            </div>
+                            <div>
+                                <label class="text-xs font-bold text-secondary mb-1 block">Mekan</label>
+                                <input asp-for="MekanAd" class="elite-input w-full" placeholder="Mekan Adı" />
+                            </div>
+                        </div>
+                        <div id="edit-map" style="height: 200px; border-radius: 12px; border: 1px solid var(--gray-200); margin-bottom: 1rem;"></div>
+                        <input type="hidden" asp-for="Enlem" id="enlem" />
+                        <input type="hidden" asp-for="Boylam" id="boylam" />
+                    </div>
+
+                    <div class="md:col-span-2 flex items-center gap-2 bg-gray-50 p-4 rounded-xl border">
+                        <input asp-for="UcretliMi" type="checkbox" style="width: 18px; height: 18px; accent-color: var(--primary);" />
+                        <label asp-for="UcretliMi" class="font-bold mb-0">Bu eğitim ücretli olarak verilecektir.</label>
+                    </div>
+                </div>
+
+                <div class="flex justify-end pt-4">
+                    <button type="submit" class="btn-elite w-full md:w-auto px-12">
+                        <i class="fas fa-save mr-2"></i> Güncellemeleri Kaydet
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Attendees & Sessions Sidebar -->
+    <div class="lg:col-span-1">
+        <div class="premium-card mb-6" style="padding: 1.5rem;">
+            <h4 class="font-bold mb-4 border-bottom pb-2" style="font-size: 1.1rem;"><i class="fas fa-users text-primary mr-2"></i> Katılımcı Listesi</h4>
+            <div style="max-height: 400px; overflow-y: auto;">
+                @if (Model.Seanslar != null)
+                {
+                    var allParticipants = Model.Seanslar.SelectMany(s => s.Katilimcilar ?? new List<WorkshopKatilimci>()).ToList();
+                    if (allParticipants.Any())
+                    {
+                        @foreach (var p in allParticipants)
+                        {
+                            <div class="flex items-center gap-3 p-3 mb-2 rounded-lg border border-gray-100 hover:bg-gray-50 transition-colors">
+                                <div style="width: 32px; height: 32px; background: var(--primary-light); color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.75rem;">
+                                    @(p.Kullanici?.AdSoyad?.Substring(0, 1).ToUpper() ?? "K")
+                                </div>
+                                <div class="flex-1">
+                                    <div class="font-bold" style="font-size: 0.85rem; color: var(--dark);">@p.Kullanici?.AdSoyad</div>
+                                    <div class="text-xs text-secondary">@p.KatilimDurumu</div>
+                                </div>
+                                <div class="text-xs font-bold text-success">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="text-center py-8">
+                            <i class="fas fa-user-friends text-gray-300 text-3xl mb-2"></i>
+                            <p class="text-secondary text-sm">Henüz katılımcı yok.</p>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+
+        <div class="premium-card" style="padding: 1.5rem;">
+            <h4 class="font-bold mb-4 border-bottom pb-2" style="font-size: 1.1rem;"><i class="fas fa-clock text-primary mr-2"></i> Seans Durumu</h4>
+            @foreach (var seans in Model.Seanslar ?? new List<WorkshopSeans>())
+            {
+                <div class="mb-4">
+                    <div class="flex justify-between text-xs font-bold mb-1">
+                        <span>@seans.Tarih.ToString("dd MMM yyyy")</span>
+                        <span class="text-primary">@seans.Saat.ToString(@"hh\:mm")</span>
+                    </div>
+                    <div class="w-full bg-gray-100 rounded-full h-1.5 mb-1">
+                        <div class="bg-primary h-1.5 rounded-full" style="width: @((int)((1 - (double)seans.KalanKontenjan / seans.Kontenjan) * 100))%"></div>
+                    </div>
+                    <div class="text-right text-xs font-bold text-secondary">@seans.KalanKontenjan / @seans.Kontenjan Boş</div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        var initialLat = @(Model.Enlem ?? 41.0082m);
+        var initialLng = @(Model.Boylam ?? 28.9784m);
+        var map = L.map('edit-map').setView([initialLat, initialLng], @(Model.Enlem.HasValue ? 15 : 10));
+        
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap'
+        }).addTo(map);
+
+        var marker;
+        if (@(Model.Enlem.HasValue ? "true" : "false")) {
+            marker = L.marker([initialLat, initialLng]).addTo(map);
+        }
+
+        map.on('click', function(e) {
+            if (marker) { map.removeLayer(marker); }
+            marker = L.marker(e.latlng).addTo(map);
+            document.getElementById('enlem').value = e.latlng.lat;
+            document.getElementById('boylam').value = e.latlng.lng;
+        });
+    </script>
+}

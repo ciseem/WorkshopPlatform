@@ -1,0 +1,77 @@
+@model WorkshopPlatform.Core.Entities.User
+@{
+    ViewData["Title"] = "Profilim";
+    var roleName = Model.Role == WorkshopPlatform.Core.Enums.UserRole.Instructor ? "Eğitmen" : "Katılımcı";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="premium-card">
+            <div class="text-center mb-6">
+                <div style="position: relative; display: inline-block;">
+                    <img src="@(string.IsNullOrEmpty(Model.ProfileImage) ? "/images/default-avatar.png" : Model.ProfileImage)" 
+                         alt="Profil Resmi" 
+                         style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 4px solid var(--gray-100); box-shadow: var(--shadow-md);" />
+                    
+                    <button onclick="document.getElementById('fileInput').click()" 
+                            style="position: absolute; bottom: 5px; right: 5px; background: var(--primary); color: white; border: none; border-radius: 50%; width: 40px; height: 40px; cursor: pointer; box-shadow: var(--shadow-sm); display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-camera"></i>
+                    </button>
+                </div>
+                
+                <h3 class="font-extrabold mt-4 mb-1" style="color: var(--dark);">@Model.AdSoyad</h3>
+                <span class="badge" style="background: var(--primary-light); color: white;">@roleName</span>
+                
+                <div class="mt-4" style="text-align: center;">
+                    <button onclick="document.getElementById('fileInput').click()" class="btn btn-primary" style="width: 100%; max-width: 250px; border-radius: 50px; font-weight: 600; box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);">
+                        <i class="fas fa-camera" style="margin-right: 8px;"></i> Profil Fotoğrafını Güncelle
+                    </button>
+                </div>
+            </div>
+
+            <div style="max-width: 500px; margin: 0 auto;">
+                <form asp-action="UploadPhoto" method="post" enctype="multipart/form-data" id="uploadForm">
+                    <input type="file" name="photo" id="fileInput" accept="image/*" style="display: none;" onchange="document.getElementById('uploadForm').submit();" />
+                </form>
+
+                <div class="stats-grid mt-8" style="grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="stat-item bg-gray-50 rounded p-3 text-center border">
+                        <span class="stat-label">Email</span>
+                        <span class="font-bold text-dark">@Model.Email</span>
+                    </div>
+                    <div class="stat-item bg-gray-50 rounded p-3 text-center border">
+                        <span class="stat-label">Telefon</span>
+                        <span class="font-bold text-dark">@(Model.Telefon ?? "-")</span>
+                    </div>
+                </div>
+
+                <div class="mt-8 text-center">
+                     <p class="text-secondary text-sm">Şifrenizi mi unuttunuz? Güvenli çıkış yapıp şifremi unuttum ekranını kullanabilirsiniz.</p>
+                </div>
+
+                <div class="mt-12 pt-8" style="border-top: 1px solid var(--gray-200);">
+                    <h5 class="font-bold text-danger mb-4" style="font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em;">Tehlikeli Bölge</h5>
+                    <div class="bg-gray-50 p-4 rounded-lg border border-danger-light" style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <p class="font-bold mb-0" style="font-size: 0.95rem;">Hesabı Sil</p>
+                            <p class="text-secondary text-sm mb-0">Hesabınız silindiğinde tüm verileriniz (eğitimler, ödemeler) kalıcı olarak kaldırılır.</p>
+                        </div>
+                        <form asp-action="DeleteAccount" method="post" id="deleteAccountForm">
+                            <button type="button" onclick="confirmDeleteAccount()" class="btn-elite" style="background: var(--danger); font-size: 0.85rem; padding: 0.5rem 1rem;">
+                                Hesabımı Sil
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function confirmDeleteAccount() {
+        if (confirm("HESABINIZI SİLMEK İSTEDİĞİNİZE EMİN MİSİNİZ?\n\nBu işlem geri alınamaz ve tüm verileriniz (oluşturduğunuz workshoplar, katılım kayıtları ve ödemeler) kalıcı olarak silinecektir.")) {
+            document.getElementById('deleteAccountForm').submit();
+        }
+    }
+</script>

@@ -1,0 +1,84 @@
+@model WorkshopPlatform.Core.Entities.Workshop
+@{
+    ViewData["Title"] = "Katılımcı Listesi";
+    var allParticipants = Model.Seanslar.SelectMany(s => s.Katilimcilar).OrderByDescending(k => k.KatilimTarihi);
+}
+
+<div class="flex justify-between items-center mb-8 pb-6" style="border-bottom: 1px solid var(--gray-200);">
+    <div>
+        <h3 class="font-extrabold mb-1" style="font-size: 1.75rem; color: var(--dark);">@Model.Baslik</h3>
+        <p class="text-secondary" style="font-size: 0.875rem; font-weight: 500;">Bu workshop için kayıt yaptıran tüm katılımcıların listesi.</p>
+    </div>
+    <a asp-action="Index" class="premium-btn-sm" style="background: var(--gray-100); color: var(--dark); border: 1px solid var(--gray-200);"><i class="fas fa-arrow-left mr-2"></i> Panele Dön</a>
+</div>
+
+<div class="stats-grid mb-8">
+    <div class="premium-card stat-item">
+        <span class="stat-label">Kayıtlı Öğrenci</span>
+        <span class="stat-value">@allParticipants.Count(k => k.KatilimDurumu == WorkshopPlatform.Core.Enums.KatilimDurumu.Kayitli)</span>
+    </div>
+    <div class="premium-card stat-item">
+        <span class="stat-label">Eğitime Katılan</span>
+        <span class="stat-value text-success">@allParticipants.Count(k => k.KatilimDurumu == WorkshopPlatform.Core.Enums.KatilimDurumu.Katildi)</span>
+    </div>
+    <div class="premium-card stat-item">
+        <span class="stat-label">Yedek Barkod</span>
+        <span class="stat-value text-warning">@allParticipants.Count(k => k.KatilimDurumu == WorkshopPlatform.Core.Enums.KatilimDurumu.Yedek)</span>
+    </div>
+</div>
+
+<div class="premium-card" style="padding: 0; overflow: hidden;">
+    <div style="overflow-x: auto;">
+        <table class="elite-table">
+            <thead>
+                <tr>
+                    <th>Katılımcı Ad Soyad</th>
+                    <th>E-posta</th>
+                    <th>Telefon</th>
+                    <th>Kayıt Tarihi</th>
+                    <th>Seans / Tarih</th>
+                    <th>Durum</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (allParticipants.Any())
+                {
+                    @foreach (var katilim in allParticipants)
+                    {
+                        <tr>
+                            <td class="font-bold">
+                                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                    <div style="width: 32px; height: 32px; background: var(--gray-100); color: var(--primary); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 800; border: 1px solid var(--gray-200);">
+                                        @(katilim.Kullanici?.AdSoyad?.Substring(0,1) ?? "U")
+                                    </div>
+                                    @katilim.Kullanici?.AdSoyad
+                                </div>
+                            </td>
+                            <td>@katilim.Kullanici?.Email</td>
+                            <td>@katilim.Kullanici?.Telefon</td>
+                            <td>@katilim.KatilimTarihi.ToString("dd.MM.yyyy HH:mm")</td>
+                            <td>
+                                <div style="font-size: 0.85rem; font-weight: 600;">@katilim.Seans?.Tarih.ToString("dd.MM.yyyy")</div>
+                                <div style="font-size: 0.75rem; color: var(--secondary);">@katilim.Seans?.Saat.ToString(@"hh\:mm")</div>
+                            </td>
+                            <td>
+                                <span class="badge @(katilim.KatilimDurumu == WorkshopPlatform.Core.Enums.KatilimDurumu.Katildi ? "badge-success" : "badge-gray")">
+                                    @katilim.KatilimDurumu
+                                </span>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="6" class="text-center" style="padding: 3rem; color: var(--secondary);">
+                            <i class="fas fa-user-slash mb-2" style="font-size: 2rem; display: block;"></i>
+                            Henüz katılım sağlayan öğrenci bulunmuyor.
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

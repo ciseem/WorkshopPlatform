@@ -1,0 +1,391 @@
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sisteme Giriş - WorkshopPlatform</title>
+    <!-- Premium Typography: Outfit -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1e40af;
+            --accent: #06b6d4;
+            --dark: #0f172a;
+            --white: #ffffff;
+            --glass: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.3);
+        }
+
+        * {
+            box-sizing: border-box;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(at 0% 0%, #dcfce7 0px, transparent 50%),
+                        radial-gradient(at 50% 0%, #dbeafe 0px, transparent 50%),
+                        radial-gradient(at 100% 0%, #fef3c7 0px, transparent 50%),
+                        radial-gradient(at 50% 50%, #e0e7ff 0px, transparent 50%),
+                        radial-gradient(at 0% 100%, #f1f5f9 0px, transparent 50%);
+            background-color: #f8fafc;
+        }
+
+        .blob {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            filter: blur(80px);
+            opacity: 0.15;
+            z-index: -1;
+            border-radius: 50%;
+            animation: move 20s infinite alternate;
+        }
+        
+        .blob-2 {
+            top: -100px;
+            right: -100px;
+            animation-delay: -5s;
+        }
+
+        @@keyframes move {
+            from { transform: translate(0, 0) scale(1); }
+            to { transform: translate(100px, 100px) scale(1.1); }
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 1000px;
+            padding: 2rem;
+            z-index: 10;
+        }
+
+        .brand-header {
+            text-align: center;
+            margin-bottom: 3.5rem;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        .brand-logo {
+            height: 70px;
+            width: auto;
+            margin-bottom: 1rem;
+            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.1));
+        }
+
+        .brand-name {
+            font-size: 2.25rem;
+            font-weight: 900;
+            background: linear-gradient(to right, var(--primary-dark), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -1px;
+        }
+
+        .role-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .role-card {
+            background: var(--glass);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 4rem 2rem;
+            text-align: center;
+            cursor: pointer;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .role-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+            border-color: var(--primary);
+        }
+
+        .role-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: 0.5s;
+        }
+
+        .role-card:hover::before {
+            left: 100%;
+        }
+
+        .role-icon-wrapper {
+            width: 80px;
+            height: 80px;
+            background: white;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem;
+            font-size: 2.5rem;
+            color: var(--primary);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .role-card h2 {
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 1rem;
+        }
+
+        .role-card p {
+            color: var(--gray-600);
+            line-height: 1.6;
+            font-size: 1rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .btn-premium {
+            padding: 1rem 2.5rem;
+            background: linear-gradient(to right, var(--primary), var(--primary-dark));
+            color: white;
+            border-radius: 14px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1rem;
+            box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.3);
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+        }
+
+        .modal-overlay.active { display: flex; animation: fadeIn 0.3s ease; }
+
+        .form-card {
+            background: white;
+            width: 100%;
+            max-width: 480px;
+            border-radius: 32px;
+            padding: 3.5rem;
+            position: relative;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            font-size: 1.5rem;
+            color: var(--gray-600);
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: var(--gray-100);
+        }
+
+        .form-title {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+
+        .form-subtitle {
+            text-align: center;
+            color: var(--gray-600);
+            margin-bottom: 2.5rem;
+        }
+
+        .input-group { margin-bottom: 1.5rem; }
+
+        .input-group label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+            margin-left: 0.25rem;
+        }
+
+        .premium-input {
+            width: 100%;
+            padding: 1.1rem 1.25rem;
+            border: 2px solid var(--gray-200);
+            border-radius: 16px;
+            font-family: inherit;
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        .premium-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+        }
+
+        .submit-trigger {
+            width: 100%;
+            padding: 1.1rem;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border: none;
+            border-radius: 16px;
+            font-weight: 800;
+            font-size: 1.1rem;
+            cursor: pointer;
+            box-shadow: 0 10px 20px -5px rgba(37, 99, 235, 0.4);
+            margin-top: 1rem;
+        }
+
+        .submit-trigger:hover {
+            transform: scale(1.02);
+            box-shadow: 0 15px 30px -5px rgba(37, 99, 235, 0.5);
+        }
+
+        @@keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @@keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @@media (max-width: 768px) {
+            .role-grid { grid-template-columns: 1fr; }
+            .login-container { max-width: 500px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="blob"></div>
+    <div class="blob blob-2" style="bottom: -100px; left: -100px;"></div>
+
+    <div class="login-container">
+        <div class="brand-header">
+            <img src="/images/logo.png" alt="WorkshopPlatform" class="brand-logo">
+            <div class="brand-name">WorkshopPlatform</div>
+        </div>
+
+        <div class="role-grid">
+            <div class="role-card" onclick="openModal('Instructor')">
+                <div class="role-icon-wrapper">
+                    <i class="fas fa-layer-group"></i>
+                </div>
+                <h2>Eğitmen</h2>
+                <p>Eğitimlerinizi oluşturun, yönetin ve profesyonel ağınızı genişletin.</p>
+                <div class="btn-premium">Eğitmen Girişi</div>
+            </div>
+
+            <div class="role-card" onclick="openModal('Student')">
+                <div class="role-icon-wrapper">
+                    <i class="fas fa-user-graduate"></i>
+                </div>
+                <h2>Katılımcı</h2>
+                <p>Yeni beceriler edinin, uzmanlardan eğitim alın ve sertifikanızı alın.</p>
+                <div class="btn-premium">Katılımcı Girişi</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="loginModal" class="modal-overlay">
+        <div class="form-card">
+            <div class="close-modal" onclick="hideModal()">&times;</div>
+            <h1 id="modalTitle" class="form-title">Giriş Yap</h1>
+            <p class="form-subtitle">Hoş geldiniz! Lütfen bilgilerinizi girin.</p>
+
+            @if(ViewBag.Error != null)
+            {
+                <div style="background: #fef2f2; color: #dc2626; padding: 1rem; border-radius: 12px; margin-bottom: 2rem; font-size: 0.9rem; font-weight: 600; text-align: center; border: 1px solid #fee2e2;">
+                    <i class="fas fa-exclamation-circle mr-2"></i> @ViewBag.Error
+                </div>
+            }
+            @if(TempData["Success"] != null)
+            {
+                <div style="background: #f0fdf4; color: #16a34a; padding: 1rem; border-radius: 12px; margin-bottom: 2rem; font-size: 0.9rem; font-weight: 600; text-align: center; border: 1px solid #dcfce7;">
+                    <i class="fas fa-check-circle mr-2"></i> @TempData["Success"]
+                </div>
+            }
+
+            <form action="/Auth/Login" method="post">
+                <input type="hidden" id="loginRole" name="role" value="Student" />
+                <div class="input-group">
+                    <label>E-posta Adresi</label>
+                    <input type="email" name="email" class="premium-input" placeholder="E-posta adresinizi giriniz" required />
+                </div>
+                <div class="input-group">
+                    <label>Şifre</label>
+                    <input type="password" name="password" class="premium-input" placeholder="Şifrenizi giriniz" required />
+                </div>
+                
+                <div style="text-align: right; margin-bottom: 2rem;">
+                    <a href="/Auth/ForgotPassword" style="font-size: 0.85rem; color: var(--primary); text-decoration: none; font-weight: 700;">Şifremi Unuttum</a>
+                </div>
+
+                <button type="submit" class="submit-trigger" id="submitBtn">Sisteme Giriş Yap</button>
+                
+                <div style="text-align: center; margin-top: 2rem; font-size: 0.95rem; color: var(--gray-600);">
+                    Hesabınız yok mu? <a href="/Auth/Register" style="color: var(--primary); text-decoration: none; font-weight: 800;">Hemen Kayıt Ol</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function openModal(role) {
+            document.getElementById('loginModal').classList.add('active');
+            document.getElementById('loginRole').value = role;
+            document.getElementById('modalTitle').innerText = role === 'Instructor' ? 'Eğitmen Girişi' : 'Katılımcı Girişi';
+        }
+
+        function hideModal() {
+            document.getElementById('loginModal').classList.remove('active');
+        }
+
+        // Close on escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') hideModal();
+        });
+
+        @if(ViewBag.Error != null || TempData["Success"] != null) {
+            <text>document.getElementById('loginModal').classList.add('active');</text>
+        }
+    </script>
+</body>
+</html>

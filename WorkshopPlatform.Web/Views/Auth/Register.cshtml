@@ -1,0 +1,185 @@
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kayıt Ol - WorkshopPlatform</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1e40af;
+            --accent: #06b6d4;
+            --dark: #0f172a;
+            --white: #ffffff;
+            --gray-100: #f1f5f9;
+            --gray-200: #e2e8f0;
+            --gray-600: #475569;
+        }
+
+        * { box-sizing: border-box; transition: all 0.3s ease; }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            margin: 0; padding: 0;
+            min-height: 100vh;
+            display: flex; align-items: center; justify-content: center;
+            background: radial-gradient(at 0% 0%, #dcfce7 0px, transparent 50%),
+                        radial-gradient(at 50% 0%, #dbeafe 0px, transparent 50%),
+                        radial-gradient(at 100% 0%, #fef3c7 0px, transparent 50%),
+                        radial-gradient(at 50% 50%, #e0e7ff 0px, transparent 50%),
+                        radial-gradient(at 0% 100%, #f1f5f9 0px, transparent 50%);
+            background-color: #f8fafc;
+        }
+
+        .blob {
+            position: absolute; width: 600px; height: 600px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            filter: blur(100px); opacity: 0.1; z-index: -1; border-radius: 50%;
+            animation: move 15s infinite alternate;
+        }
+
+        @@keyframes move {
+            from { transform: translate(-50px, -50px); }
+            to { transform: translate(50px, 50px); }
+        }
+
+        .register-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            width: 100%; max-width: 550px;
+            padding: 4rem;
+            border-radius: 40px;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,255,0.4);
+            margin: 2rem;
+        }
+
+        .brand-header { text-align: center; margin-bottom: 2.5rem; }
+        .brand-logo { height: 60px; margin-bottom: 0.75rem; }
+        
+        .form-title {
+            font-size: 2.5rem; font-weight: 900; color: var(--dark);
+            text-align: center; margin-bottom: 0.5rem; letter-spacing: -1px;
+        }
+
+        .form-subtitle { text-align: center; color: var(--gray-600); margin-bottom: 3rem; font-weight: 500; }
+
+        .input-group { margin-bottom: 1.5rem; }
+        .input-group label {
+            display: block; font-weight: 700; font-size: 0.9rem; color: var(--dark);
+            margin-bottom: 0.6rem; margin-left: 0.5rem;
+        }
+
+        .premium-input {
+            width: 100%; padding: 1.1rem 1.4rem;
+            border: 2px solid var(--gray-200); border-radius: 20px;
+            font-family: inherit; font-size: 1rem; background: white;
+        }
+
+        .premium-input:focus {
+            outline: none; border-color: var(--primary);
+            box-shadow: 0 0 0 5px rgba(37, 99, 235, 0.08);
+        }
+
+        .role-selector {
+            display: flex; gap: 1rem; margin-bottom: 2rem; background: var(--gray-100);
+            padding: 0.5rem; border-radius: 18px;
+        }
+
+        .role-option {
+            flex: 1; text-align: center; padding: 1rem; cursor: pointer;
+            border-radius: 14px; font-weight: 700; font-size: 0.95rem; color: var(--gray-600);
+        }
+
+        .role-option.active {
+            background: white; color: var(--primary); box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .submit-btn {
+            width: 100%; padding: 1.25rem;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white; border: none; border-radius: 20px;
+            font-weight: 800; font-size: 1.1rem; cursor: pointer;
+            box-shadow: 0 10px 20px -5px rgba(37, 99, 235, 0.4);
+            margin-top: 1rem;
+        }
+
+        .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 15px 30px -5px rgba(37, 99, 235, 0.5); }
+
+        .login-link { text-align: center; margin-top: 2rem; color: var(--gray-600); font-weight: 500; }
+        .login-link a { color: var(--primary); text-decoration: none; font-weight: 800; }
+    </style>
+</head>
+<body>
+    <div class="blob"></div>
+
+    <div class="register-card">
+        <div class="brand-header">
+            <img src="/images/logo.png" alt="WorkshopPlatform" class="brand-logo">
+        </div>
+
+        <h1 class="form-title">Hesap Oluştur</h1>
+        <p class="form-subtitle">Workshop dünyasına adımınızı atın.</p>
+
+        @if(ViewBag.Error != null)
+        {
+            <div style="background: #fef2f2; color: #dc2626; padding: 1.25rem; border-radius: 20px; margin-bottom: 2rem; font-size: 0.95rem; font-weight: 700; border: 1px solid #fee2e2; text-align: center;">
+                <i class="fas fa-exclamation-circle" style="margin-right: 0.5rem;"></i> @ViewBag.Error
+            </div>
+        }
+
+        <form action="/Auth/Register" method="post">
+            <div class="role-selector">
+                <div class="role-option" id="studentOpt" onclick="selectRole('Student')">Katılımcı</div>
+                <div class="role-option" id="instructorOpt" onclick="selectRole('Instructor')">Eğitmen</div>
+            </div>
+
+            <input type="hidden" id="registerRole" name="role" value="1" />
+
+            <div class="input-group">
+                <label>Ad Soyad</label>
+                <input type="text" name="adSoyad" class="premium-input" placeholder="Adınızı ve soyadınızı giriniz" required />
+            </div>
+
+            <div class="input-group">
+                <label>E-posta Adresi</label>
+                <input type="email" name="email" class="premium-input" placeholder="E-posta adresinizi giriniz" required />
+            </div>
+
+            <div class="input-group">
+                <label>Telefon Numarası</label>
+                <input type="tel" name="telefon" class="premium-input" placeholder="0555 555 55 55" required />
+            </div>
+
+            <div class="input-group">
+                <label>Şifre</label>
+                <input type="password" name="password" class="premium-input" placeholder="••••••••" required />
+            </div>
+
+            <button type="submit" class="submit-btn">Kayıt İşlemini Tamamla</button>
+
+            <div class="login-link">
+                Zaten hesabınız var mı? <a href="/Auth/Login">Giriş Yap</a>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        function selectRole(roleName) {
+            // Student: 1, Instructor: 2
+            const roleValue = roleName === 'Instructor' ? 2 : 1;
+            document.getElementById('registerRole').value = roleValue;
+            document.getElementById('studentOpt').classList.toggle('active', roleName === 'Student');
+            document.getElementById('instructorOpt').classList.toggle('active', roleName === 'Instructor');
+        }
+        // Init
+        selectRole('Student');
+    </script>
+</body>
+</html>
